@@ -1,5 +1,8 @@
 # scrna-pipelines
-collect existing tools into linux-runnable pipelines
+We are developing linux-runnable pipelines
+Default pipeline runs
+: RSEM : edgeR : GSEA
+
 ## Pathway Visualization
 ```
 ## R wrapper is tested with sample data
