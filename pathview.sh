@@ -1,44 +1,43 @@
 #!/bin/bash
 
-usage="$BASH_SOURCE <input> <pathwayid> <species> <outdir>
+
+usage="
+usage: bash $BASH_SOURCE <input> <pathwayid> <species> 
+	or
+	bash $RBASH_SOURCE test 
+		this will test required R libraries (pathview)
+	<input>: read https://pathview.uncc.edu/tutorial#gene_data
+	<pathwayid>: kegg pathway id
 "
 if [ $# -lt 1 ];then echo "$usage";exit; fi
 
 input=$1
 pathwayid=${2:-"hsa04110"};
 species=${3:-"hsa"};
-outdir=${4:-"pathway_out"}; outdir=${outdir/\/$/}
+output=hsa${pathwayid/hsa}
 
 
-sample_data="MCM2	-1
-ORC1	0
-UKNOWN	1"
 
-mkdir -p $outdir
 
 cat << 'EOF' | sed s#PATHID#$pathwayid# \
-	| sed s#SPECIES#$species# \
-	| sed s#OUTDIR#$outdir# > $outdir/code.R
+	| sed s#SPECIES#$species# > $output.R
 
 	p="PATHID";
 	s="SPECIES";
-	o="OUTDIR";
 
 	library("pathview")
-	d=read.table("stdin",header=F);
-	head(d)
-	x=d[,2]; names(x)=d[,1]
-	head(x)
-	pathview(gene.data=x, kegg.dir=o,gene.idtype="symbol",pathway.id=p, species=s)
+	d=read.table("stdin",header=T,row.names=1);
+	pathview(gene.data=d, gene.idtype="symbol",pathway.id=p, species=s)
 EOF
 
 
 if [[ $input == "test" && ! -f $input ]];then 
-	echo "$sample_data" | R --no-save -f $outdir/code.R
+	sample_data="x
+	MCM2	-1
+	ORC1	0
+	UKNOWN	1"
+	echo "$sample_data" | R --no-save -f $output.R
 else
-	cat $input | R --no-save -f $outdir/code.R 
-fi
-if [ -f ./$pathwayid.pathview.* ];then
-	mv ./$pathwayid.pathview.* $outdir
+	cat $input | R --no-save -f $output.R 
 fi
 
