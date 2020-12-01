@@ -1,8 +1,8 @@
 # scrna-pipelines
 collect existing tools into linux-runnable pipelines
 ```
-## @hmgene made an R wrapper
-## test with sample data
+## R wrapper is tested with sample data
+## the first row include only column names
 bash pathview.sh test
 
 
