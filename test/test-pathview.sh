@@ -1,0 +1,1 @@
+bash ../pathview.sh test
