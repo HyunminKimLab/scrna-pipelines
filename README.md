@@ -1,7 +1,12 @@
 # scrna-pipelines
 We are developing linux-runnable pipelines
-Default pipeline runs
-: RSEM : edgeR : GSEA
+
+## Default RNA-seq pipeline runs
+- RSEM | edgeR or DESeq2 | GSEA
+
+## Default scRNA-seq pipeline runs
+- Cellranger | integration (Harmony) | visualization clustering (Seurat) | cell/function identification 
+- many functional analysis solutions of RNA-seq are reusable in scRNA
 
 ## Pathway Visualization
 ```
